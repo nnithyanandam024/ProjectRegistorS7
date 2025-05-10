@@ -1,15 +1,20 @@
-import React from 'react'
-import { SafeAreaProvider} from 'react-native-safe-area-context'
-import AppLayout from './src/navigation/AppLayout'
-import { StatusBar } from 'react-native'
-
+import React from 'react';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import AdminDashboard from './src/Screens/ADMIN/AdminDashboard/AdminDashboard';
+import Applayout from './src/Applayout/Applayout';
 const App = () => {
   return (
-    <SafeAreaProvider >
-      <StatusBar barStyle="dark-content" backgroundColor="#FAFAFA" />
-      <AppLayout />
-    </SafeAreaProvider>
-  )
-}
+    <SafeAreaView style={styles.container}>
+      <Applayout />
+    </SafeAreaView>
+  );
+};
 
-export default App
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+});
+
+export default App;
