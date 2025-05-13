@@ -5,7 +5,8 @@ import { StatusBar } from 'react-native'
 
 const App = () => {
   return (
-    <SafeAreaProvider >
+    <SafeAreaProvider>
+      {/* Set the status bar style and background color */}
       <StatusBar barStyle="dark-content" backgroundColor="#FAFAFA" />
       <AppLayout />
     </SafeAreaProvider>
