@@ -12,18 +12,53 @@ import {
 import Loginimg from '../../assets/Login/loginimg.svg';
 import styles from './LoginStyle';
 import { TextInput } from 'react-native-paper';
-import React,{ useState } from 'react';
+import React, { useState } from 'react';
 import Separator from '../../assets/Login/separator.svg';
 import Googleicon from '../../assets/Login/google.svg';
 import Tickicon from '../../assets/Login/tick.svg';
 import Tickbox from '../../assets/Login/tickbox.svg';
 
-const Login = ({navigation}) => {
-       const [checked, setChecked] = useState(true); 
-       const handleLogin = () => {
-    console.log('Login button pressed');
-   
-};
+const Login = ({ navigation }) => {
+    const [checked, setChecked] = useState(true);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [selectedRole, setSelectedRole] = useState('teacher'); // Default role
+
+    // Mock credentials for demonstration
+    const userCredentials = {
+        teacher: { email: 'teacher@gmail.com', password: 'teacher123' },
+        admin: { email: 'admin@gmail.com', password: 'admin123' },
+        student: { email: 'student@gmail.com', password: 'student123' },
+    };
+
+    const handleLogin = () => {
+        // Simple validation
+        if (!email || !password) {
+            Alert.alert('Error', 'Please enter both email and password');
+            return;
+        }
+
+        // Check credentials against the selected role
+        const roleCredentials = userCredentials[selectedRole];
+        if (email === roleCredentials.email && password === roleCredentials.password) {
+            // Navigate to appropriate dashboard based on role
+            switch (selectedRole) {
+                case 'teacher':
+                    navigation.navigate('TeacherDashboard');
+                    break;
+                case 'admin':
+                    navigation.navigate('AdminDashboard');
+                    break;
+                case 'student':
+                    navigation.navigate('StudentDashboard');
+                    break;
+                default:
+                    Alert.alert('Error', 'Invalid role selected');
+            }
+        } else {
+            Alert.alert('Error', 'Invalid credentials');
+        }
+    };
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -40,6 +75,10 @@ const Login = ({navigation}) => {
                                 label="Email"
                                 mode="outlined"
                                 activeOutlineColor="#c884fc"
+                                value={email}
+                                onChangeText={setEmail}
+                                keyboardType="email-address"
+                                autoCapitalize="none"
                             />
                             <TextInput
                                 style={styles.input}
@@ -47,15 +86,18 @@ const Login = ({navigation}) => {
                                 mode="outlined"
                                 activeOutlineColor="#c884fc"
                                 secureTextEntry
+                                value={password}
+                                onChangeText={setPassword}
                             />
                         </View>
+
 
                         <Pressable style={styles.checkboxContainer} onPress={() => setChecked(!checked)}>
                             {checked ? <Tickbox height={18} width={18} /> : <Tickicon height={18} width={18} />}
                             <Text style={styles.checkboxText}>I agree with the Privacy Policy</Text>
                         </Pressable>
 
-                        <TouchableOpacity style={styles.pressablebtn}  onPress={() => navigation.navigate('TeacherDashboard')}>
+                        <TouchableOpacity style={styles.pressablebtn} onPress={handleLogin}>
                             <View style={styles.btn}>
                                 <Text style={styles.btntext}>LOGIN</Text>
                             </View>

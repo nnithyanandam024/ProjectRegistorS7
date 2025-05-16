@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Keyboard, Platform } from 'react-native';
 
-// Import screens
 import TeacherHome from '../screens/Teacher/TeacherHome/TeacherHome';
 import TeacherAddProject from '../screens/Teacher/AddProject/AddProject';
 import TeacherProjects from '../screens/Teacher/Project/ProjectHome';
-import TeacherProgress from '../screens/Teacher/Progress/ProjectProgress';
+import TeacherProgress from '../screens/Teacher/Progress/ProgressHome';
+import TeacherProjectDetails from '../screens/Teacher/Project/ProjectDetails';
+import DepartmentProgress from '../screens/Teacher/Progress/DepartmentProgress';
 
-// Import icons
+
 import Home from '../assets/Navbar/house.svg';
 import AddProject from '../assets/Navbar/upload.svg';
 import Project from '../assets/Navbar/file-text.svg';
@@ -22,11 +23,38 @@ import ProgressClicked from '../assets/Navbar/graphClicked.svg';
 const Tab = createBottomTabNavigator();
 
 const TeacherTabNavigator = () => {
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
+
+  // Set up keyboard event listeners
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true);
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false);
+      }
+    );
+
+    // Clean up listeners when component unmounts
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarStyle: styles.tabBar,
+        tabBarStyle: {
+          ...styles.tabBar,
+          display: keyboardVisible ? 'none' : 'flex',
+        },
         tabBarShowLabel: true,
         tabBarActiveTintColor: '#c884fc',
         tabBarInactiveTintColor: '#CDCDCD',
