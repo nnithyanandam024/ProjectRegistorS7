@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f8f0ff',
   },
- header: {
+  header: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 16,
@@ -24,16 +24,6 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
-  titleSection: {
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
-  },
-  projectTitle: {
-    fontSize: 22,
-    fontWeight: '600',
-    color: '#000',
-  },
   infoSection: {
     padding: 16,
     backgroundColor: 'white',
@@ -51,7 +41,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 8,
-    
   },
   infoLabel: {
     fontSize: 16,
@@ -63,11 +52,11 @@ const styles = StyleSheet.create({
     color: '#333',
     fontWeight: '500',
   },
-   infoValue1: {
+  infoValueGreen: {
     fontSize: 16,
     color: '#34C300',
     fontWeight: '500',
-   },
+  },
   statusBadge: {
     paddingHorizontal: 10,
     paddingVertical: 4,
@@ -125,15 +114,27 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#666',
   },
-  chartContainer: {
+  pieChartContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     height: 200,
     marginBottom: 16,
   },
-  progressChart: {
-    width: '100%',
+  pieChart: {
+    width: 180,
+    height: 180,
+    borderRadius: 90,
+    overflow: 'hidden',
+    position: 'relative',
+    backgroundColor: '#f0f0f0',
+  },
+  pieSlice: {
+    position: 'absolute',
+    width: '50%',
     height: '100%',
+    left: '50%',
+    top: 0,
+    transformOrigin: '0% 50%',
   },
   progressLegend: {
     marginTop: 10,

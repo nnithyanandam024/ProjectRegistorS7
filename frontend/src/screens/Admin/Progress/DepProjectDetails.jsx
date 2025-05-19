@@ -68,7 +68,7 @@ const DepProjectDetails = ({ route, navigation }) => {
 
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>Total:</Text>
-            <Text style={styles.infoValue1}>{project.students} Students</Text>
+            <Text style={styles.infoValue}>{project.students} Students</Text>
           </View>
 
           <View style={styles.infoRow}>

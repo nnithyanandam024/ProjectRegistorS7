@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity, ScrollView, Image } from 'react-native';
-import styles from './DepProjectDetailsStyle';
-import BackIcon from '../../../assets/Teacher/back.svg'; // You'll need this asset
+import { View, Text, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
+import styles from './GuideProjectProgressStyle';
+import BackIcon from '../../../assets/Teacher/back.svg';
 
-// Import your progress chart image or use a charting library
-import progressIcon from '../../../assets/Teacher/deptIcon.png'; // Replace with your actual asset
-
-const DepProjectDetails = ({ route, navigation }) => {
+const GuideProjectProgress = ({ route, navigation }) => {
   const { project } = route.params;
   const [teamProgress, setTeamProgress] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -36,6 +33,40 @@ const DepProjectDetails = ({ route, navigation }) => {
     return status === 'Ongoing' ? '#FFA500' : '#4CAF50';
   };
 
+  // Simple implementation of a pie chart view using View components
+  const renderPieChart = () => {
+    const totalProgress = teamProgress.reduce((sum, member) => sum + member.progress, 0);
+    
+    return (
+      <View style={styles.pieChartContainer}>
+        <View style={styles.pieChart}>
+          {teamProgress.map((member, index) => {
+            const percentage = (member.progress / totalProgress) * 100;
+            const rotate = index === 0 ? 0 : 
+              teamProgress.slice(0, index).reduce((sum, m) => sum + (m.progress / totalProgress) * 360, 0);
+            
+            return (
+              <View 
+                key={member.id}
+                style={[
+                  styles.pieSlice,
+                  { 
+                    backgroundColor: getRandomColor(member.id),
+                    transform: [
+                      { rotate: `${rotate}deg` },
+                    ],
+                    zIndex: teamProgress.length - index,
+                    width: percentage > 50 ? '100%' : '50%',
+                  }
+                ]}
+              />
+            );
+          })}
+        </View>
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -43,16 +74,12 @@ const DepProjectDetails = ({ route, navigation }) => {
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
-            <BackIcon width={24} height={24} />
+          <BackIcon width={24} height={24} />
         </TouchableOpacity>
-          <Text style={styles.headerText}>{"Projects in " + project.department}</Text>
+        <Text style={styles.headerText}>{project.name}</Text>
       </View>
 
       <ScrollView style={styles.scrollView}>
-        <View style={styles.titleSection}>
-          <Text style={styles.projectTitle}>{project.name}</Text>
-        </View>
-
         <View style={styles.infoSection}>
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>Department:</Text>
@@ -68,7 +95,7 @@ const DepProjectDetails = ({ route, navigation }) => {
 
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>Total:</Text>
-            <Text style={styles.infoValue1}>{project.students} Students</Text>
+            <Text style={styles.infoValueGreen}>{project.students} Students</Text>
           </View>
 
           <View style={styles.infoRow}>
@@ -91,13 +118,7 @@ const DepProjectDetails = ({ route, navigation }) => {
             </View>
           ) : (
             <>
-              <View style={styles.chartContainer}>
-                <Image 
-                  source={progressIcon}
-                  style={styles.progressChart}
-                  resizeMode="contain"
-                />
-              </View>
+              {renderPieChart()}
 
               <View style={styles.progressLegend}>
                 {teamProgress.map(member => (
@@ -124,4 +145,4 @@ const getRandomColor = (id) => {
   return colors[index];
 };
 
-export default DepProjectDetails;
+export default GuideProjectProgress;

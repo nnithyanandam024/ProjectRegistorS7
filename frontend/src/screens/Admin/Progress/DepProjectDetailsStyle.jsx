@@ -51,7 +51,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 8,
-    
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
   },
   infoLabel: {
     fontSize: 16,
@@ -63,11 +64,6 @@ const styles = StyleSheet.create({
     color: '#333',
     fontWeight: '500',
   },
-   infoValue1: {
-    fontSize: 16,
-    color: '#34C300',
-    fontWeight: '500',
-   },
   statusBadge: {
     paddingHorizontal: 10,
     paddingVertical: 4,

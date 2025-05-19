@@ -1,3 +1,4 @@
+// Updated Login.jsx
 import {
     SafeAreaView,
     Text,
@@ -22,13 +23,13 @@ const Login = ({ navigation }) => {
     const [checked, setChecked] = useState(true);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [selectedRole, setSelectedRole] = useState('teacher'); // Default role
 
     // Mock credentials for demonstration
     const userCredentials = {
         teacher: { email: 'teacher@gmail.com', password: 'teacher123' },
-        admin: { email: 'admin@gmail.com', password: 'admin123' },
+        admin: { email: 'admin@gmail.com', password: 'Admin123' },
         student: { email: 'student@gmail.com', password: 'student123' },
+        guide: { email: 'guide@gmail.com', password: 'guide123' },
     };
 
     const handleLogin = () => {
@@ -38,24 +39,18 @@ const Login = ({ navigation }) => {
             return;
         }
 
-        // Check credentials against the selected role
-        const roleCredentials = userCredentials[selectedRole];
-        if (email === roleCredentials.email && password === roleCredentials.password) {
-            // Navigate to appropriate dashboard based on role
-            switch (selectedRole) {
-                case 'teacher':
-                    navigation.navigate('TeacherDashboard');
-                    break;
-                case 'admin':
-                    navigation.navigate('AdminDashboard');
-                    break;
-                case 'student':
-                    navigation.navigate('StudentDashboard');
-                    break;
-                default:
-                    Alert.alert('Error', 'Invalid role selected');
-            }
-        } else {
+        // Check credentials against each role
+        if (email === userCredentials.teacher.email && password === userCredentials.teacher.password) {
+            navigation.navigate('TeacherDashboard');
+        } else if (email === userCredentials.admin.email && password === userCredentials.admin.password) {
+            navigation.navigate('AdminDashboard');
+        } else if (email === userCredentials.student.email && password === userCredentials.student.password) {
+            navigation.navigate('StudentDashboard');
+        }
+        else if (email === userCredentials.guide.email && password === userCredentials.guide.password) {
+            navigation.navigate('GuideDashboard');
+        }
+         else {
             Alert.alert('Error', 'Invalid credentials');
         }
     };
@@ -88,9 +83,9 @@ const Login = ({ navigation }) => {
                                 secureTextEntry
                                 value={password}
                                 onChangeText={setPassword}
+                                autoCapitalize="none"
                             />
                         </View>
-
 
                         <Pressable style={styles.checkboxContainer} onPress={() => setChecked(!checked)}>
                             {checked ? <Tickbox height={18} width={18} /> : <Tickicon height={18} width={18} />}
